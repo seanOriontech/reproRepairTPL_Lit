@@ -1,0 +1,26 @@
+<ion-button shape="round" (click)="addClick()">
+  <ion-icon slot="icon-only" name="add"></ion-icon>
+</ion-button>
+
+<br>
+<br>
+<div *ngIf="itemStatus == 0">
+
+  <form>
+
+    <ion-item>
+      <ion-label>Technicians</ion-label>
+      <ion-select [(ngModel)]="selectedTechnicianID" name="technicianID" interface="alert"
+        (ionChange)="onTechnicianChange($event)">
+        <ion-select-option *ngFor="let tech of techService.technicians" [value]="tech.technicianID">
+          {{ tech.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <br>
+
+    <div *ngFor="let job of jobListFilter">
+      <app-jobItem [currentJob]="currentJob" [job]="job"> </app-jobItem>
+    </div>
+
+  </form>

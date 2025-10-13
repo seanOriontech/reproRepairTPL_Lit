@@ -1,0 +1,25 @@
+<div class="itemContainer" [ngClass]="{'green-background': lamp?.jobLampStatus == JobLampStatus.repeaired}">
+  <ion-grid style="padding: 0px !important;">
+    <ion-row (click)="openSerialNumberModal()">
+      <ion-col style="font-size: 18px;text-align: left;" size="10">
+        <strong>Serial Number: </strong> {{lamp?.serialNumber}}
+        <strong>Head Piece: </strong> {{lamp?.headPieceNumber}}
+        <strong>Technician: </strong> {{getTechName( lamp?.technicianID ?? "")}}
+      </ion-col>
+
+      <ion-col style="font-size: 18px;text-align: right;" size="2">
+        <ion-grid style="padding: 0px !important;">
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" (click)="setOpen(true); $event.stopPropagation()">
+              <ion-icon name="trash" size="large"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
+
+<ion-alert [isOpen]="isAlertOpen" header="Remove Item" message="Are you sure that you want to remove ?"
+  [buttons]="alertButtons" (didDismiss)="setOpen(false)"></ion-alert>

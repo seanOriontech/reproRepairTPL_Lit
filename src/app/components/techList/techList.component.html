@@ -1,0 +1,14 @@
+<ion-button shape="round" (click)="addClick()">
+  <ion-icon slot="icon-only" name="add"></ion-icon>
+</ion-button>
+
+<br>
+<br>
+
+
+
+<div *ngFor="let tech of techService.technicians">
+
+  <app-tech [tech]="tech"> </app-tech>
+
+</div>

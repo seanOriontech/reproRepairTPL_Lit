@@ -1,0 +1,52 @@
+<ion-card>
+
+  <ion-card-content>
+
+    <h2>
+      RS NUMBER: {{jobService.jobSelected?.rsNumber}}
+    </h2>
+    <ion-button shape="round" (click)="addClick()">
+      SCAN <ion-icon slot="end" name="add"></ion-icon>
+    </ion-button>
+    <form [formGroup]="itemForm">
+      <div class="button-row">
+
+        <ion-input fill="solid" style="font-size: 30px !important;" labelPlacement="stacked" label="Serial Number:"
+          formControlName="serialNumber" type="text"></ion-input>
+
+        <ion-button shape="round" (click)="addManualClick()">
+          ADD <ion-icon slot="end" name="add"></ion-icon>
+        </ion-button>
+      </div>
+    </form>
+
+
+
+    <br>
+    <br>
+
+    <div style="font-size: 24px;"> <strong>COUNT:</strong> {{ jobService.newLampItems.length }}</div>
+
+    <ion-content class="ion-padding" style="height: 70vh;">
+      <div *ngFor="let lamp of jobService.newLampItems ">
+
+        <app-lampItem [lamp]="lamp" [newLamp]='true'></app-lampItem>
+
+
+      </div>
+    </ion-content>
+
+  </ion-card-content>
+</ion-card>
+
+<ion-footer style="position: absolute;bottom: 0px">
+  <ion-toolbar>
+    <ion-button expand="block" shape="round" style="margin: 10px;" (click)="addToJob()">
+      Add to JOB
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+
+<ion-alert [isOpen]="isAlertOpen" header="Add TPL2 to Job" message="Are you sure you want to add these to Job?"
+  [buttons]="alertButtons"></ion-alert>

@@ -1,0 +1,50 @@
+<div class="itemContainer" (click)="itemClick($event)">
+  <ion-grid style="padding: 0px !important;">
+    <ion-row>
+      <ion-col style="font-size: 18px;text-align: left;" size="6">
+        <strong>RS Number: </strong> {{ job.rsNumber }}
+      </ion-col>
+
+      <ion-col style="font-size: 18px;text-align: left;" size="4">
+        <strong>RFQ: </strong> {{ job.rfq }}
+      </ion-col>
+
+      <ion-col style="font-size: 18px;text-align: right;" size="2">
+        <ion-icon *ngIf="currentJob === 0" name="trash" size="large" style="color: var(--ion-color-danger);"
+          (click)="setOpen($event, true)">
+        </ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid style="padding: 0px !important;">
+    <ion-row>
+      <ion-col style="font-size: 18px;text-align: left;" size="12">
+        <strong>Date Created:</strong> {{ job.dateCreated | readableDate }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid style="padding: 0px !important;">
+    <ion-row>
+      <ion-col style="font-size: 18px;text-align: left;" size="12">
+        <strong>Technician:</strong> {{ job.technician?.name }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- 🔹 New Edit Button at Bottom -->
+  <ion-row class="ion-padding-top">
+    <ion-col size="12" class="ion-text-center">
+      <ion-button expand="block" color="primary" size="large" (click)="editItemClick($event, job)">
+        <ion-icon name="create" slot="start"></ion-icon>
+        Edit Job
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</div>
+
+<!-- Existing Alert -->
+<ion-alert [isOpen]="isAlertOpen" header="Remove Item" message="Are you sure that you want to remove?"
+  [buttons]="alertButtons" (didDismiss)="setOpen($event,false)">
+</ion-alert>

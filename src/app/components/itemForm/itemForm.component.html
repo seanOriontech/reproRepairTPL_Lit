@@ -1,0 +1,27 @@
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit($event)">
+  <ion-item>
+
+    <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="Name:" formControlName="name"
+      type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+
+    <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="P Code:" formControlName="p_Code"
+      type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+
+    <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="Max:" formControlName="max"
+      type="number"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label style="font-size: 30px !important;" position="stacked">Color:</ion-label>
+    <ion-input formControlName="color" type="color"></ion-input>
+  </ion-item>
+  <br>
+  <ion-button *ngIf="itemService.itemSelected == undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+    Submit</ion-button>
+  <ion-button *ngIf="itemService.itemSelected != undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+    Update</ion-button>
+</form>

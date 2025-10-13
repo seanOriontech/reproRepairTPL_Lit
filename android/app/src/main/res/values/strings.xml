@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">tpl2_upgrade</string>
+    <string name="title_activity_main">tpl2_upgrade</string>
+    <string name="package_name">za.oriontech.tpl2</string>
+    <string name="custom_url_scheme">za.oriontech.tpl2</string>
+</resources>

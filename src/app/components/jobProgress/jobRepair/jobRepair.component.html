@@ -1,0 +1,55 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size="6">
+      <ion-button shape="round" (click)="onScanClick()">
+        SCAN
+      </ion-button>
+
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="setOpen(true)" expand="block" [disabled]="getActive()">
+        COMPLETE JOB</ion-button>
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+
+<h2> Search: </h2>
+<ion-input fill="solid" style="font-size: 30px !important;margin-bottom: 10px;" [(ngModel)]="searchTerm"
+  (ionInput)="filterLamps()" type="text" size="large"></ion-input>
+
+
+<div style="font-size: 24px;"> <strong>COUNT:</strong> {{ filteredLamps?.length }}</div>
+<br>
+
+<div *ngFor="let lamp of filteredLamps">
+
+  <div class="itemContainer" (click)="lampClick(lamp)"
+    [ngClass]="{'green-background': lamp?.jobLampStatus == JobLampStatus.repeaired}">
+    <ion-grid style="padding: 0px !important;">
+      <ion-row>
+        <ion-col style="font-size: 18px;text-align: left;" size="10">
+          <strong>Serial Number: </strong> {{lamp?.serialNumber}}
+        </ion-col>
+        <ion-col style="font-size: 18px;text-align: left;" size="10">
+          <strong>HeadPiece Number: </strong> {{lamp?.headPieceNumber}}
+        </ion-col>
+        <ion-col style="font-size: 18px;text-align: left;" size="10">
+          <strong> Technician: </strong> {{ getTech(lamp?.technicianID ?? "")}}
+        </ion-col>
+        <ion-col style="font-size: 18px;text-align: right;" size="2">
+          <ion-grid style="padding: 0px !important;">
+            <ion-row></ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</div>
+
+
+<ion-alert [isOpen]="isAlertOpen" header="Complete Repair Job?" message="Are you sure that you want to complete Job ?"
+  [buttons]="alertButtons" (didDismiss)="setOpen(false)"></ion-alert>

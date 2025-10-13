@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon (click)="backClick()" name="arrow-back" size="large">
+      </ion-icon>
+    </ion-buttons>
+    <ion-title>Technician</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+
+
+  <div *ngIf="techService.navNumber == 0">
+
+    <app-techList></app-techList>
+
+
+
+
+  </div>
+
+  <div *ngIf="techService.navNumber == 1">
+
+    <app-techForm></app-techForm>
+
+
+
+
+  </div>
+
+
+
+
+</ion-content>

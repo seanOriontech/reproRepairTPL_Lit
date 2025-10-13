@@ -1,0 +1,19 @@
+<ion-button shape="round" (click)="addClick()">
+  <ion-icon slot="icon-only" name="add"> </ion-icon>
+</ion-button>
+
+<br>
+<br>
+<div *ngIf="itemStatus == 0">
+
+  <div style="font-size: 2rem ;">COUNT : {{ jobService.jobSelected?.jobLamps?.length}}</div>
+  <br>
+
+  <div *ngFor="let lamp of jobService.jobSelected?.jobLamps">
+
+    <app-lampItem [lamp]="lamp"> </app-lampItem>
+
+  </div>
+
+
+</div>

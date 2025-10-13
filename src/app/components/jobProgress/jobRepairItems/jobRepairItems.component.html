@@ -1,0 +1,137 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size="6">
+
+      <div class="flex-container">
+        Serial Number:
+        <div>
+          <h2> {{ jobLamp.serialNumber}}</h2>
+        </div>
+
+      </div>
+
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="clickComplete()" expand="block" *ngIf="jobLamp.jobLampStatus == JobLampStatus.reparing">
+        COMPLETE </ion-button>
+      <ion-button [disabled]='true' expand="block" *ngIf="jobLamp.jobLampStatus == JobLampStatus.repeaired"> COMPLETED
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+
+
+<ion-card-content style="padding-bottom: 120px;padding-left: 0px !important;padding-right: 0px !important;">
+
+
+  <div *ngIf="selectedSegment === 'all'">
+
+    <h2> Search: </h2>
+    <div class="input-container">
+      <ion-input fill="solid" style="font-size: 30px !important; margin-bottom: 10px;" [(ngModel)]="searchTerm"
+        (ionInput)="filterItems()" type="text"></ion-input>
+      <ion-icon name="close-circle" class="clear-icon" (click)="clearSearch()"></ion-icon>
+    </div>
+
+    <div *ngFor=" let item of this.filteredItems">
+
+      <div class="itemContainer" [ngStyle]="{'background-color': item.colour}">
+        <ion-grid style="padding: 0px !important;">
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" size="12">
+              {{item.name}}
+              -- P-CODE: {{item.p_Code}}
+            </ion-col>
+
+
+
+
+
+
+
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" size="12">
+              <div class="button-container">
+                <div *ngFor="let i of createRange(item.max+1); let index = index">
+                  <ion-button (click)="valueClick(index,item)" [color]="getColour(index,item)"> {{index }}</ion-button>
+                </div>
+
+                <ion-button style="margin-left: 20px;" [color]="getRSelected(item)" (click)="getRClick(item)"> R
+                </ion-button>
+
+              </div>
+
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+    </div>
+
+
+
+
+
+
+  </div>
+
+  <div *ngIf="selectedSegment === 'repaired'">
+
+    <div *ngFor=" let item of this.filteredItems">
+
+      <div class="itemContainer" [ngStyle]="{'background-color': item.colour}" *ngIf="getActiveItem(item)">
+        <ion-grid style="padding: 0px !important;">
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" size="12">
+              {{item.name}}
+              -- P-CODE: {{item.p_Code}}
+            </ion-col>
+
+
+
+
+
+
+
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" size="12">
+              <div class="button-container">
+                <div *ngFor="let i of createRange(item.max+1); let index = index">
+                  <ion-button (click)="valueClick(index,item)" [color]="getColour(index,item)"> {{index }}</ion-button>
+                </div>
+
+              </div>
+
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</ion-card-content>
+
+
+
+<ion-segment style="position: fixed;bottom: 0px; background-color: white;padding:0px;"
+  (ionChange)="segmentChanged($event)" value="all">
+  <ion-segment-button value="all">
+    <ion-icon name="list"></ion-icon>
+    <ion-label>ALL</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="repaired">
+    <ion-icon name="hammer"></ion-icon>
+    <ion-label>REPAIRED ITEMS</ion-label>
+  </ion-segment-button>
+</ion-segment>

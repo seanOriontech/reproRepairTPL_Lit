@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Enter Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <br>
+  <ion-item>
+    <ion-label position="stacked">Serial Number</ion-label>
+    <ion-input [(ngModel)]="serialNumber"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">HeadPiece</ion-label>
+    <ion-input [(ngModel)]="headPieceNumber"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Technician</ion-label>
+    <ion-select [(ngModel)]="technicianID" interface="alert">
+      <ion-select-option *ngFor="let tech of techService.technicians" [value]="tech.technicianID">
+        {{ tech.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Inline error message -->
+  <div *ngIf="showTechError" class="error-text ion-padding-start ion-padding-top">
+    ⚠️ Please select a technician before continuing.
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="accept()">Accept</ion-button>
+  <ion-button expand="full" color="light" (click)="dismiss()">Cancel</ion-button>
+</ion-footer>

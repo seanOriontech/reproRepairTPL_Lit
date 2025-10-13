@@ -1,0 +1,18 @@
+.itemContainer {
+  margin-bottom: 8px;
+  padding: 5px;
+  background-color: lightblue;
+  color: var(--ion-color-primary-contrast);
+  border: 1px;
+  border-radius: 10px;
+  border-color: blue;
+  border-style: solid;
+}
+
+ion-col {
+  padding: 0px;
+}
+
+ion-row {
+  padding: 0px !important;
+}

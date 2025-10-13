@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon (click)="backClick()" name="arrow-back" size="large">
+      </ion-icon>
+    </ion-buttons>
+    <ion-title>Job Items</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="ion-padding">
+  <div style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+
+
+              <app-itemList *ngIf="this.itemService.navNumber == 0"></app-itemList>
+
+              <app-itemForm *ngIf="this.itemService.navNumber == 1"></app-itemForm>
+
+              <app-itemBarcode *ngIf="this.itemService.navNumber == 2"></app-itemBarcode>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

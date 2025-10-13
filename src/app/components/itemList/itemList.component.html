@@ -1,0 +1,16 @@
+<ion-button shape="round" (click)="addClick()">
+  <ion-icon slot="icon-only" name="add"></ion-icon>
+</ion-button>
+
+<br>
+<br>
+<div *ngIf="itemStatus == 0">
+
+  <div *ngFor="let item of itemService.items">
+
+    <app-item [item]="item"> </app-item>
+
+  </div>
+
+
+</div>

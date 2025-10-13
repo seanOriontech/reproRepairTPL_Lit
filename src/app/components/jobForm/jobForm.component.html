@@ -1,0 +1,127 @@
+<form *ngIf="jobService.jobSelected == undefined" [formGroup]="itemForm" (ngSubmit)="onSubmit($event)">
+  <ion-item>
+
+    <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="RS Number:"
+      formControlName="rsNumber" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+
+    <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="RFQ:" formControlName="rfq"
+      type="text"></ion-input>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label>Mine</ion-label>
+    <ion-select formControlName="mineId" interface="alert">
+      <ion-select-option *ngFor="let mine of jobService.mines" [value]="mine.mineId">
+        {{ mine.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label>Technicians</ion-label>
+    <ion-select formControlName="technicianID" interface="alert">
+      <ion-select-option *ngFor="let tech of techService.technicians" [value]="tech.technicianID">
+        {{ tech.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label> Upgrade </ion-label>
+    <ion-checkbox formControlName="isUpgrade"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label> Repair </ion-label>
+    <ion-checkbox formControlName="isRepair"></ion-checkbox>
+  </ion-item>
+
+
+  <br>
+  <ion-button *ngIf="jobService.jobSelected == undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+    Submit</ion-button>
+  <ion-button *ngIf="jobService.jobSelected != undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+    Update</ion-button>
+</form>
+
+
+<div *ngIf="jobService.jobSelected != undefined">
+  <h2>
+    RS NUMBER: {{jobService.jobSelected.rsNumber}}
+  </h2>
+
+
+  <ion-segment (ionChange)="segmentChanged($event)" value="general">
+    <ion-segment-button value="general">
+      <ion-label>General</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lamps">
+      <ion-label>Lamps</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <form *ngIf="selectedSegment == 'general'" [formGroup]="itemForm" (ngSubmit)="onSubmit($event)">
+    <ion-item>
+
+      <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="RS Number:"
+        formControlName="rsNumber" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+
+      <ion-input style="font-size: 30px !important;" labelPlacement="stacked" label="RFQ:" formControlName="rfq"
+        type="text"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Mine</ion-label>
+      <ion-select formControlName="mineId" interface="alert">
+        <ion-select-option *ngFor="let mine of jobService.mines" [value]="mine.mineId">
+          {{ mine.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Technicians</ion-label>
+      <ion-select formControlName="technicianID" interface="alert">
+        <ion-select-option *ngFor="let tech of techService.technicians" [value]="tech.technicianID">
+          {{ tech.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> 24V </ion-label>
+      <ion-checkbox formControlName="is12Volt"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label> Upgrade </ion-label>
+      <ion-checkbox formControlName="isUpgrade"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label> Repair </ion-label>
+      <ion-checkbox formControlName="isRepair"></ion-checkbox>
+    </ion-item>
+
+
+    <br>
+    <ion-button *ngIf="jobService.jobSelected == undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+      Submit</ion-button>
+    <ion-button *ngIf="jobService.jobSelected != undefined" expand="full" type="submit" [disabled]="itemForm.invalid">
+      Update</ion-button>
+  </form>
+
+
+  <div *ngIf="selectedSegment == 'lamps'">
+
+    <app-lampList></app-lampList>
+
+  </div>
+
+
+</div>

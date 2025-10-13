@@ -1,0 +1,39 @@
+<div class="itemContainer" (click)="itemClick($event)">
+
+  <ion-grid style="padding: 0px !important;">
+    <ion-row>
+      <ion-col style="font-size: 18px;text-align: left;" size="6">
+        <strong>Name: </strong> {{tech.name}}
+      </ion-col>
+
+
+      <ion-col style="font-size: 18px;text-align: right;" size="2">
+
+        <ion-grid style="padding: 0px !important;" *ngIf="currentJob === 0">
+          <ion-row>
+            <ion-col style="font-size: 18px;text-align: left;" (click)="editItemClick($event,tech)">
+              <ion-icon name="create" size="large"></ion-icon>
+            </ion-col>
+            <ion-col style="font-size: 18px;text-align: left;" (click)="setOpen($event,true)">
+              <ion-icon name="trash" size="large"></ion-icon>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+
+      </ion-col>
+
+
+
+    </ion-row>
+
+  </ion-grid>
+
+
+
+
+
+</div>
+
+<ion-alert [isOpen]="isAlertOpen" header="Remove Item" message="Are you sure that you want to remove ?"
+  [buttons]="alertButtons" (didDismiss)="setOpen($event,false)"></ion-alert>

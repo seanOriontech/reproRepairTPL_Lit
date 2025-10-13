@@ -1,0 +1,44 @@
+<form [formGroup]="formGroup">
+
+
+
+  <ion-button expand="block" (click)="startScan()" [disabled]="!isSupported">Start Scan</ion-button>
+
+
+  <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">Scan</ion-button>
+  <ion-button expand="block" (click)="installGoogleBarcodeScannerModule()" [disabled]="!isSupported">Install
+    Google Barcode Scanner Module</ion-button>
+  <ion-button expand="block" (click)="requestPermissions()" [disabled]="isPermissionGranted">Request Permissions
+  </ion-button>
+</form>
+
+@for (barcode of barcodes; track barcode) {
+<ion-card>
+  <ion-card-content>
+    <ion-item>
+      <ion-label position="fixed">Bytes</ion-label>
+      <ion-input type="text" readonly [value]="barcode.bytes?.toString() || ''"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Corner Points</ion-label>
+      <ion-input type="text" readonly [value]="barcode.cornerPoints?.toString() || ''"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Display Value</ion-label>
+      <ion-input type="text" readonly [value]="barcode.displayValue"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Format</ion-label>
+      <ion-input type="text" readonly [value]="barcode.format"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Raw Value</ion-label>
+      <ion-input type="text" readonly [value]="barcode.rawValue"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Value Type</ion-label>
+      <ion-input type="text" readonly [value]="barcode.valueType"></ion-input>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+}

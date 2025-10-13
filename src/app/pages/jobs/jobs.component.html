@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon (click)="backClick()" name="arrow-back" size="large">
+      </ion-icon>
+    </ion-buttons>
+    <ion-title>Jobs</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div *ngIf="selectedSegment == 'CURRENT'">
+
+
+    <div *ngIf="this.jobService.navNumber != 2"
+      style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
+      <ion-card>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+
+                <app-jobList *ngIf="jobService.navNumber === 0" [isVisible]="jobService.navNumber === 0"></app-jobList>
+                <app-jobForm *ngIf="this.jobService.navNumber == 1"></app-jobForm>
+
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+
+    <app-lampAdd style="padding: 20px;" *ngIf="this.jobService.navNumber == 2"></app-lampAdd>
+
+
+  </div>
+
+
+  <div *ngIf="selectedSegment == 'COMPLETED'">
+
+
+    <div *ngIf="this.jobService.navNumber != 2"
+      style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
+      <ion-card>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+
+                <app-jobList [currentJob]="1" [isVisible]="jobService.navNumber === 0"
+                  *ngIf="this.jobService.navNumber == 0"></app-jobList>
+                <app-jobForm *ngIf="this.jobService.navNumber == 1"></app-jobForm>
+
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+</ion-content>
+
+<ion-segment style="position: fixed;bottom: 0px; background-color: white;padding:0px;"
+  (ionChange)="segmentChanged($event)" value="CURRENT" *ngIf="this.jobService.navNumber == 0">
+  <ion-segment-button value="CURRENT">
+
+    <ion-label>CURRENT</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="COMPLETED">
+
+    <ion-label>COMPLETED</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<div> V4 </div>
+
+
+
+<ion-alert [isOpen]="isAlertOpen" header="TPL2 have been added." message="All TPL2 will be removed from list?"
+  [buttons]="alertButtons"></ion-alert>

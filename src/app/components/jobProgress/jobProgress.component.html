@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon (click)="backClick()" name="arrow-back" size="large">
+      </ion-icon>
+    </ion-buttons>
+    <ion-title>Job Progress</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-col size="6" class="flex-container">
+    RS Number:
+    <h2>{{ job.rsNumber}}</h2>
+  </ion-col>
+
+  <ion-col size="6" class="flex-container">
+    RFQ:
+    <h2>{{ job.rfq}}</h2>
+  </ion-col>
+  <hr>
+
+
+
+  <div *ngIf=" job.jobStatus != jobStatuses.SendQuoting">
+    <div *ngIf="jobService.navNumber == 0">
+
+
+
+
+
+
+
+
+      <div style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
+
+
+        <ion-button expand="block" [disabled]='getDisabled(jobStatuses.Created)'
+          (click)="onClick(jobStatuses.Repairing)">
+          Washing </ion-button>
+
+        <ion-grid class="progButtons"
+          *ngIf="job.jobStatus != jobStatuses.Repairing && job.jobStatus != jobStatuses.Created">
+          <ion-row>
+            <ion-col size="8">
+              <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.Repairing)'
+                (click)="onRepairClick()"> Repairing
+              </ion-button>
+            </ion-col>
+            <ion-col size="4">
+              <ion-button class="progButtons" expand="block" (click)="onClick(jobStatuses.Repairing)"> Re-Repair
+              </ion-button>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+
+
+
+        <ion-button *ngIf="job.jobStatus == jobStatuses.Repairing" class="progButtons" expand="block"
+          [disabled]='getDisabled(jobStatuses.Repairing)' (click)="onRepairClick()"> Repairing
+        </ion-button>
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.Repaired)'
+          (click)="onClick(jobStatuses.Programmed)">
+          Programming </ion-button>
+
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.Programmed)'
+          (click)="onClick(jobStatuses.Labeled)">
+          Calibration </ion-button>
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.Labeled)'
+          (click)="onClick(jobStatuses.FieldTested)">
+          Apply 8 Labels </ion-button>
+
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.FieldTested)'
+          (click)="onClick(jobStatuses.CableMeasurement_Lux)">
+          Field Testing / Cos Testing </ion-button>
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.CableMeasurement_Lux)'
+          (click)="onClick(jobStatuses.EngraveLamps)">
+          Cable Measurement / LUX Test </ion-button>
+
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.EngraveLamps)'
+          (click)="onClick(jobStatuses.CableMeasurement_Lux_Done)">
+          Final Check </ion-button>
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.CableMeasurement_Lux_Done)'
+          (click)="onClick(jobStatuses.SendQuoting)">
+          Send Quote </ion-button>
+
+
+
+
+
+      </div>
+
+    </div>
+
+    <div *ngIf="jobService.navNumber == 1">
+      <app-jobRepair></app-jobRepair>
+    </div>
+
+    <div *ngIf="jobService.navNumber == 2">
+      <app-jobRepairItems></app-jobRepairItems>
+    </div>
+
+
+
+  </div>
+
+  <div *ngIf=" job.jobStatus == jobStatuses.SendQuoting">
+    <div *ngIf="jobService.navNumber == 0">
+
+
+
+
+
+
+
+
+      <div style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
+
+
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.SendQuoting)'
+          (click)="onClick(jobStatuses.SendQuoting)">
+          Send Quote </ion-button>
+
+        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.SendQuoting)'
+          (click)="onClick(jobStatuses.Repairing)">
+          SUBMIT BACK </ion-button>
+
+
+
+
+      </div>
+
+    </div>
+
+    <div *ngIf="jobService.navNumber == 1">
+      <app-jobRepair></app-jobRepair>
+    </div>
+
+    <div *ngIf="jobService.navNumber == 2">
+      <app-jobRepairItems></app-jobRepairItems>
+    </div>
+
+
+
+  </div>
+
+
+</ion-content>
+
+
+<ion-alert [isOpen]="isAlertOpen" [header]="header" [message]="message" [buttons]="alertButtons"></ion-alert>
