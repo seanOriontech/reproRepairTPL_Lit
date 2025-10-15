@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // apiURL: 'http://0.0.0.0:64512/api',
+  apiURL: 'http://0.0.0.0:64512/api',
   // apiURL: 'https://as-repro-repairapi-prd.azurewebsites.net/api/',
 };
 
