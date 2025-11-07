@@ -39,7 +39,7 @@ export class JobService {
 
   getJobs(): Observable<Job[]> {
     this.spinnerService.showSpinner();
-    return this.http.get<Job[]>(environment.apiURL + '/u_Job').pipe(
+    return this.http.get<Job[]>(environment.apiURL + '/u_Job_liteC').pipe(
       map((response) => {
         this.jobs.length = 0;
         this.jobs = response;
@@ -53,28 +53,32 @@ export class JobService {
   getJobByID(JobID: string): Observable<Job> {
     this.spinnerService.showSpinner();
 
-    return this.http.get<Job>(environment.apiURL + '/u_Job/' + JobID).pipe(
-      map((response) => {
-        this.jobSelected = response;
+    return this.http
+      .get<Job>(environment.apiURL + '/u_Job_liteC/' + JobID)
+      .pipe(
+        map((response) => {
+          this.jobSelected = response;
 
-        this.spinnerService.hideSpinner();
-        return response;
-      }),
-      catchError(this.handleError<Job>('getJobs', new Job()))
-    );
+          this.spinnerService.hideSpinner();
+          return response;
+        }),
+        catchError(this.handleError<Job>('getJobs', new Job()))
+      );
   }
 
   getCompleted(): Observable<Job[]> {
     this.spinnerService.showSpinner();
-    return this.http.get<Job[]>(environment.apiURL + '/u_Job/completed').pipe(
-      map((response) => {
-        this.jobs.length = 0;
-        this.jobs = response;
-        this.spinnerService.hideSpinner();
-        return response;
-      }),
-      catchError(this.handleError<Job[]>('getJobs', []))
-    );
+    return this.http
+      .get<Job[]>(environment.apiURL + '/u_Job_liteC/completed')
+      .pipe(
+        map((response) => {
+          this.jobs.length = 0;
+          this.jobs = response;
+          this.spinnerService.hideSpinner();
+          return response;
+        }),
+        catchError(this.handleError<Job[]>('getJobs', []))
+      );
   }
 
   getMines(): Observable<Mine[]> {
@@ -91,7 +95,7 @@ export class JobService {
 
   addJob(job: Job): Observable<Job> {
     return this.http
-      .post<Job>(`${environment.apiURL}/u_Job`, job, this.httpOptions)
+      .post<Job>(`${environment.apiURL}/u_Job_liteC`, job, this.httpOptions)
       .pipe(
         map((response) => response),
         catchError((error: HttpErrorResponse) => {
@@ -112,7 +116,7 @@ export class JobService {
   updateJob(job: Job): Observable<Job> {
     return this.http
       .put<Job>(
-        environment.apiURL + '/u_Job/' + job.jobID,
+        environment.apiURL + '/u_Job_liteC/' + job.jobID,
         job,
         this.httpOptions
       )
@@ -127,7 +131,10 @@ export class JobService {
   removeJob(jobItem: string | undefined): Observable<any> {
     this.spinnerService.showSpinner();
     return this.http
-      .delete<any>(environment.apiURL + '/u_Job/' + jobItem, this.httpOptions)
+      .delete<any>(
+        environment.apiURL + '/u_Job_liteC/' + jobItem,
+        this.httpOptions
+      )
       .pipe(
         map((response) => {
           this.spinnerService.hideSpinner();
@@ -145,7 +152,7 @@ export class JobService {
   updateJobStatus(job: Job, JobStatus: UJobStatus): Observable<Job> {
     return this.http
       .put<Job>(
-        environment.apiURL + '/u_Job/' + JobStatus + '/JobStatus',
+        environment.apiURL + '/u_Job_liteC/' + JobStatus + '/JobStatus',
         job,
         this.httpOptions
       )
@@ -161,7 +168,7 @@ export class JobService {
     this.spinnerService.showSpinner();
     return this.http
       .post<Job>(
-        environment.apiURL + '/u_Job/' + jobID + '/lamps',
+        environment.apiURL + '/u_Job_liteC/' + jobID + '/lamps',
         jobLamps,
         this.httpOptions
       )
@@ -188,7 +195,7 @@ export class JobService {
     this.spinnerService.showSpinner();
     return this.http
       .delete<any>(
-        environment.apiURL + '/u_Job/' + lampItemID + '/lamps',
+        environment.apiURL + '/u_Job_liteC/' + lampItemID + '/lamps',
         this.httpOptions
       )
       .pipe(
@@ -217,7 +224,7 @@ export class JobService {
 
     return this.http
       .put<Job>(
-        environment.apiURL + '/u_Job/JobLampItems',
+        environment.apiURL + '/u_Job_liteC/JobLampItems',
         joblamps,
         this.httpOptions
       )
@@ -235,7 +242,7 @@ export class JobService {
 
     return this.http
       .patch<Job>(
-        environment.apiURL + '/u_Job/JobLampItems/' + jobStatus,
+        environment.apiURL + '/u_Job_liteC/JobLampItems/' + jobStatus,
         joblamps,
         this.httpOptions
       )
@@ -253,7 +260,7 @@ export class JobService {
 
     return this.http
       .patch<Job>(
-        environment.apiURL + '/u_Job/JobLampItems',
+        environment.apiURL + '/u_Job_liteC/JobLampItems',
         joblamps,
         this.httpOptions
       )

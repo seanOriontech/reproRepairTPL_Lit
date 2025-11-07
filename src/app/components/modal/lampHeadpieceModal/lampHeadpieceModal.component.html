@@ -25,6 +25,12 @@
     </ion-select>
   </ion-item>
 
+
+  <ion-item>
+    <ion-label position="floating">MAC Address</ion-label>
+    <ion-input [(ngModel)]="macAddress" placeholder="AA:BB:CC:DD:EE:FF" autocapitalize="characters"></ion-input>
+  </ion-item>
+
   <!-- Inline error message -->
   <div *ngIf="showTechError" class="error-text ion-padding-start ion-padding-top">
     ⚠️ Please select a technician before continuing.

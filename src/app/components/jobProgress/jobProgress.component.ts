@@ -54,6 +54,10 @@ export class JobProgressComponent implements OnInit {
       .subscribe(
         (job) => {
           this.job = job;
+
+          if (this.job.jobStatus == UJobStatus.Created) {
+            this.job.jobStatus = UJobStatus.Repairing;
+          }
         },
         (err) => {}
       );
