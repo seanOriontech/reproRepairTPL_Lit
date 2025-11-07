@@ -25,7 +25,7 @@ export class ItemService {
   /** GET all items */
   getItems(): Observable<Item[]> {
     this.spinnerService.showSpinner();
-    return this.http.get<Item[]>(environment.apiURL + '/u_Item').pipe(
+    return this.http.get<Item[]>(environment.apiURL + '/u_Ite_litem').pipe(
       map((response) => {
         this.items.length = 0;
         this.items = response;
@@ -48,7 +48,7 @@ export class ItemService {
   /** POST: add a new item */
   addItem(item: Item): Observable<Item> {
     return this.http
-      .post<Item>(environment.apiURL + '/u_Item', item, this.httpOptions)
+      .post<Item>(environment.apiURL + '/u_Ite_litem', item, this.httpOptions)
       .pipe(
         map((reponse) => {
           return reponse;
@@ -61,7 +61,7 @@ export class ItemService {
   updateItem(item: Item): Observable<any> {
     return this.http
       .put(
-        environment.apiURL + '/u_Item/' + item.itemID,
+        environment.apiURL + '/u_Ite_litem/' + item.itemID,
         item,
         this.httpOptions
       )
@@ -70,7 +70,7 @@ export class ItemService {
 
   /** DELETE: delete the item */
   deleteItem(id: string): Observable<Item> {
-    const url = `${environment.apiURL + '/u_Item'}/${id}`;
+    const url = `${environment.apiURL + '/u_Ite_litem'}/${id}`;
     return this.http.delete<Item>(url, this.httpOptions).pipe(
       map((reponse) => {
         this.getItems().subscribe();

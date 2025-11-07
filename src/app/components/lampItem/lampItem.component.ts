@@ -60,6 +60,7 @@ export class LampItemComponent implements OnInit {
           checkLamp.headPieceNumber = result.data.headPieceNumber ?? '';
           checkLamp.serialNumber = result.data.serialNumber ?? '';
           checkLamp.technicianID = result.data.technicianID ?? '';
+          checkLamp.macAddress = result.data.macAddress ?? '';
 
           if (
             !this.checkLampHeadpiece(checkLamp.headPieceNumber ?? '') &&
@@ -73,6 +74,7 @@ export class LampItemComponent implements OnInit {
           this.lamp.headPieceNumber = result.data.headPieceNumber ?? '';
           this.lamp.serialNumber = result.data.serialNumber ?? '';
           this.lamp.technicianID = result.data.technicianID ?? '';
+          this.lamp.macAddress = result.data.macAddress ?? '';
 
           if (!this.newLamp) {
             this.jobService.updateJobLampHead(this.lamp).subscribe(

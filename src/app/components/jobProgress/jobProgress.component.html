@@ -36,9 +36,8 @@
       <div style="width: 100%; vertical-align: middle;height: 100%;margin-top: 20px;">
 
 
-        <ion-button expand="block" [disabled]='getDisabled(jobStatuses.Created)'
-          (click)="onClick(jobStatuses.Repairing)">
-          Washing </ion-button>
+
+
 
         <ion-grid class="progButtons"
           *ngIf="job.jobStatus != jobStatuses.Repairing && job.jobStatus != jobStatuses.Created">
@@ -73,21 +72,19 @@
 
         <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.Labeled)'
           (click)="onClick(jobStatuses.FieldTested)">
-          Apply 8 Labels </ion-button>
+          Field testing /COS testing </ion-button>
+
+
 
 
         <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.FieldTested)'
-          (click)="onClick(jobStatuses.CableMeasurement_Lux)">
-          Field Testing / Cos Testing </ion-button>
-
-        <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.CableMeasurement_Lux)'
           (click)="onClick(jobStatuses.EngraveLamps)">
           Cable Measurement / LUX Test </ion-button>
 
 
         <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.EngraveLamps)'
           (click)="onClick(jobStatuses.CableMeasurement_Lux_Done)">
-          Final Check </ion-button>
+          QC </ion-button>
 
         <ion-button class="progButtons" expand="block" [disabled]='getDisabled(jobStatuses.CableMeasurement_Lux_Done)'
           (click)="onClick(jobStatuses.SendQuoting)">
@@ -109,6 +106,9 @@
       <app-jobRepairItems></app-jobRepairItems>
     </div>
 
+    <div *ngIf="jobService.navNumber == 3">
+      <app-jobRepairItems></app-jobRepairItems>
+    </div>
 
 
   </div>

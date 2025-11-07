@@ -29,7 +29,7 @@ export class TechService {
   getItems(): Observable<Technician[]> {
     this.spinnerService.showSpinner();
     return this.http
-      .get<Technician[]>(environment.apiURL + '/Technicians')
+      .get<Technician[]>(environment.apiURL + '/Technicians_lite')
       .pipe(
         map((response) => {
           this.technicians.length = 0;
@@ -67,7 +67,7 @@ export class TechService {
   addItem(technician: Technician): Observable<Technician> {
     return this.http
       .post<Technician>(
-        environment.apiURL + '/Technicians',
+        environment.apiURL + '/Technicians_lite',
         technician,
         this.httpOptions
       )
@@ -85,7 +85,7 @@ export class TechService {
   updateItem(technician: Technician): Observable<Technician> {
     return this.http
       .put(
-        environment.apiURL + '/Technicians/' + technician.technicianID,
+        environment.apiURL + '/Technicians_lite/' + technician.technicianID,
         technician,
         this.httpOptions
       )
@@ -94,7 +94,7 @@ export class TechService {
 
   /** DELETE: delete the item */
   deleteItem(id: string): Observable<Technician> {
-    const url = `${environment.apiURL + '/Technicians'}/${id}`;
+    const url = `${environment.apiURL + '/Technicians_lite'}/${id}`;
     return this.http.delete<Technician>(url, this.httpOptions).pipe(
       map((reponse) => {
         this.getItems().subscribe();

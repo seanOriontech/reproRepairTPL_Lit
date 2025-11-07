@@ -8,6 +8,14 @@ export class JobLamp {
   headPieceNumber?: string | null;
   technicianID?: string | null;
   camNumber?: string | null;
+  macAddress?: string | null;
+  macAddressQA?: string | null;
+  cableLength?: number | null;
+  hpMin?: number | null;
+  ledBlueLight?: number | null;
+  mainLEDLumens?: number | null;
+  dateTest?: Date | null;
+
   jobLampStatus?: JobLampStatus = JobLampStatus.reparing;
   jobID?: string;
   job?: Job | null;

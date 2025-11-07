@@ -12,6 +12,7 @@ export class LampHeadpieceModalComponent {
   headPieceNumber: string = '';
   serialNumber: string = '';
   technicianID: string = '';
+  macAddress: string = '';
   showTechError = false;
 
   constructor(
@@ -22,7 +23,7 @@ export class LampHeadpieceModalComponent {
     this.headPieceNumber =
       this.jobService.selectedJobLamp.headPieceNumber ?? '';
     this.serialNumber = this.jobService.selectedJobLamp.serialNumber ?? '';
-    this.technicianID = this.jobService.selectedJobLamp.technicianID ?? '';
+    this.macAddress = this.jobService.selectedJobLamp.macAddress ?? '';
   }
 
   accept() {
@@ -38,6 +39,7 @@ export class LampHeadpieceModalComponent {
       serialNumber: this.serialNumber,
       headPieceNumber: this.headPieceNumber,
       technicianID: this.technicianID,
+      macAddress: this.macAddress,
     });
   }
 
