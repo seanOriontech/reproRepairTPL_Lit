@@ -13,11 +13,13 @@ import { LampItemComponent } from 'src/app/components/lampItem/lampItem.componen
 import { LampAddComponent } from 'src/app/components/lampAdd/lampAdd.component';
 import { JobProgressComponent } from 'src/app/components/jobProgress/jobProgress.component';
 import { JobRepairComponent } from 'src/app/components/jobProgress/jobRepair/jobRepair.component';
+import { JobQCComponent } from 'src/app/components/jobProgress/jobQC/jobQC.component';
 import { ItemModelSingleComponent } from 'src/app/components/itemBarcode/itemModelSingle/itemModelSingle.component';
 import { JobRepairItemsComponent } from 'src/app/components/jobProgress/jobRepairItems/jobRepairItems.component';
 import { TechListComponent } from 'src/app/components/techList/techList.component';
 import { ItemModalComponent } from 'src/app/components/itemBarcode/itemModal/itemModal.component';
 import { LampHeadpieceModalComponent } from 'src/app/components/modal/lampHeadpieceModal/lampHeadpieceModal.component';
+
 
 @NgModule({
   imports: [
@@ -41,6 +43,8 @@ import { LampHeadpieceModalComponent } from 'src/app/components/modal/lampHeadpi
     ItemModelSingleComponent,
     JobRepairItemsComponent,
     LampHeadpieceModalComponent,
+    JobQCComponent
+    
   ],
 })
 export class JobsModule {}

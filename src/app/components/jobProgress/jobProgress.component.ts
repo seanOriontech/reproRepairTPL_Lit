@@ -93,8 +93,10 @@ export class JobProgressComponent implements OnInit {
   }
 
   backClick() {
-    if (this.jobService.navNumber == 0) {
+    if (this.jobService.navNumber === 0) {
       this.router.navigate(['/jobsPage']);
+    } else if (this.jobService.navNumber === 3) {
+      this.jobService.navNumber = 0;
     } else {
       this.jobService.moveBackward();
     }
@@ -103,6 +105,10 @@ export class JobProgressComponent implements OnInit {
   onRepairClick() {
     this.jobService.moveForward();
     this.cdr.detectChanges();
+  }
+
+  onQcClick() {
+    this.jobService.navNumber = 3;
   }
 
   async presentToast(message: string, type: 'error' | 'success') {

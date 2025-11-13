@@ -1,21 +1,21 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JobRepairComponent } from './jobRepair.component';
+import { JobQCComponent } from './jobQC.component';
 
-describe('JobRepairComponent', () => {
-  let component: JobRepairComponent;
-  let fixture: ComponentFixture<JobRepairComponent>;
+describe('JobQCComponent', () => { 
+  let component: JobQCComponent;     
+  let fixture: ComponentFixture<JobQCComponent>; 
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JobRepairComponent ]
+      declarations: [ JobQCComponent ] 
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JobRepairComponent);
+    fixture = TestBed.createComponent(JobQCComponent); 
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
