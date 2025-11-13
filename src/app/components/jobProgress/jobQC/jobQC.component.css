@@ -1,0 +1,47 @@
+.itemContainer {
+  margin-bottom: 8px;
+  padding: 5px;
+  background-color: lightblue;
+  color: black;
+  border: 1px;
+  border-radius: 10px;
+  border-color: blue;
+  border-style: solid;
+}
+
+ion-col {
+  padding: 0px;
+}
+
+ion-row {
+  padding: 0px !important;
+}
+
+.green-background {
+  background-color: green;
+}
+
+.popup-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+ion-modal {
+  --width: 90%;
+  --max-width: 400px;
+  --border-radius: 16px;
+}
+
+ion-item {
+  display: flex;
+  align-items: center;
+}
+
+ion-label {
+  font-size: 16px;
+  color: #222;
+}
+
+ion-select {
+  font-size: 16px;
+}

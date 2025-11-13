@@ -1,4 +1,5 @@
 export enum JobLampStatus {
   reparing = 0,
   repeaired = 1,
+  qcDone = 2,
 }

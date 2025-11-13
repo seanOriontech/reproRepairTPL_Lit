@@ -22,4 +22,5 @@ export class Job {
   jobStatuses?: JobStatus[] = [];
   technician?: Technician = undefined;
   technicianID?: string = undefined;
+  technicianQAID?: string = undefined;
 }

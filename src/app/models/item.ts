@@ -4,4 +4,5 @@ export class Item {
   p_Code?: string = '';
   max: number = 0;
   colour: string = '';
+  
 }

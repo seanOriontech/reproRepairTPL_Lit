@@ -14,18 +14,16 @@ import { JobLamp } from 'src/app/models/jobLamp';
 import { JobLampStatus } from 'src/app/enums/jobLampStatus.enum';
 import { UJobStatus } from 'src/app/enums/uJobStatus.enum';
 import { TechService } from 'src/app/services/tech.service';
-import { ItemService } from 'src/app/services/item.service';
 
 @Component({
-  selector: 'app-jobRepair',
-  templateUrl: './jobRepair.component.html',
-  styleUrls: ['./jobRepair.component.css'],
+  selector: 'app-qc',
+  templateUrl: './jobQC.component.html',
+  styleUrls: ['./jobQC.component.css'],
 })
-export class JobRepairComponent implements OnInit {
+export class JobQCComponent implements OnInit {
   job: Job = new Job();
 
   searchTerm: string = '';
-
   filteredLamps = this.job.jobLamps;
   JobLampStatus = JobLampStatus;
 
@@ -34,8 +32,8 @@ export class JobRepairComponent implements OnInit {
   public barcodes: Barcode[] = [];
 
   isAlertOpen = false;
-  selectedLamp: JobLamp = new JobLamp();
-  isSaving = false; // spinner ke liye flag
+  isSaving = false;  // spinner ke liye flag
+
 
   public alertButtons = [
     {
@@ -49,7 +47,7 @@ export class JobRepairComponent implements OnInit {
       text: 'OK',
       role: 'confirm',
       handler: () => {
-        this.clickComplete();
+        this.clickCompleteQC();
       },
     },
   ];
@@ -57,8 +55,7 @@ export class JobRepairComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private toastController: ToastController,
-    public techservice: TechService,
-    private itemService: ItemService,
+    public techService: TechService,
     private router: Router,
     private readonly dialogService: DialogService
   ) {}
@@ -68,41 +65,26 @@ export class JobRepairComponent implements OnInit {
       this.job = this.jobService.jobSelected;
     }
 
+    // Sort lamps (reparing first)
     this.filteredLamps = this.job.jobLamps?.sort((a, b) => {
       if (
         a.jobLampStatus === JobLampStatus.reparing &&
         b.jobLampStatus !== JobLampStatus.reparing
       ) {
-        return -1; // a comes before b
+        return -1;
       } else if (
         a.jobLampStatus !== JobLampStatus.reparing &&
         b.jobLampStatus === JobLampStatus.reparing
       ) {
-        return 1; // b comes before a
+        return 1;
       } else {
-        return 0; // keep original order if both are same
+        return 0;
       }
     });
-     // 🔹 Auto-select lamp (like openPopup does)
-  const repairingLamp = this.filteredLamps?.find(
-    (l) => l.jobLampStatus === JobLampStatus.reparing
-  );
-
-  if (repairingLamp) {
-    this.selectedLamp = { ...repairingLamp };
-    this.selectedLamp.macAddressQA = repairingLamp.macAddress;
-    console.log('✅ Auto-selected lamp:', this.selectedLamp.serialNumber);
-  } else if (this.filteredLamps?.length) {
-    // fallback to first lamp
-    const firstLamp = this.filteredLamps[0];
-    this.selectedLamp = { ...firstLamp };
-    this.selectedLamp.macAddressQA = firstLamp.macAddress;
-  }
-
   }
 
   getTech(techID: string) {
-    return this.techservice.technicians.find((x) => x.technicianID == techID)
+    return this.techService.technicians.find((x) => x.technicianID == techID)
       ?.name;
   }
 
@@ -130,7 +112,6 @@ export class JobRepairComponent implements OnInit {
   public async startScan(): Promise<void> {
     const element = await this.dialogService.showModal({
       component: ItemModelSingleComponent,
-      // Set `visibility` to `ItemModalComponent` to show the modal (see `src/theme/variables.scss`)
       cssClass: 'barcode-scanning-modal',
       showBackdrop: false,
       componentProps: {
@@ -141,7 +122,6 @@ export class JobRepairComponent implements OnInit {
 
     element.onDidDismiss().then((result) => {
       const barcode: Barcode | undefined = result.data?.barcode;
-
       this.barcodes = result.data?.barcodes;
 
       if (barcode) {
@@ -149,17 +129,21 @@ export class JobRepairComponent implements OnInit {
         console.log(barcode);
       }
 
-      this.searchTerm = this.barcodes[0].displayValue;
+      this.searchTerm = this.barcodes[0]?.displayValue ?? '';
     });
   }
 
-  clickComplete() {
-    this.jobService.updateJobStatus(this.job, UJobStatus.Repaired).subscribe(
+  // ✅ Updated for QC completion
+  clickCompleteQC() {
+    this.jobService.updateJobStatus(this.job, UJobStatus.QCChecked).subscribe(
       (result) => {
         this.job = result;
         this.jobService.jobSelected = result;
+        this.presentToast('QC process completed successfully.', 'success');
       },
-      (err) => {}
+      (err) => {
+        this.presentToast('Error while completing QC.', 'error');
+      }
     );
   }
 
@@ -168,7 +152,7 @@ export class JobRepairComponent implements OnInit {
       (x) => x.jobLampStatus == JobLampStatus.reparing
     );
 
-    if (index == -1 && this.job.jobStatus != UJobStatus.Repairing) {
+    if (index == -1 && this.job.jobStatus != UJobStatus.QCChecked) {
       return true;
     }
 
@@ -191,18 +175,19 @@ export class JobRepairComponent implements OnInit {
   }
 
   isModalOpen = false;
+  selectedLamp: JobLamp | null = null;
 
   openPopup(lamp: JobLamp) {
     this.selectedLamp = { ...lamp };
-    this.selectedLamp.macAddressQA = lamp.macAddress;
     this.isModalOpen = true;
   }
 
   closePopup() {
     this.isModalOpen = false;
+    this.selectedLamp = null;
   }
 
-  async savetechnicianQAID() {
+async saveLampDetails() {
   if (!this.selectedLamp?.technicianID) {
     this.presentToast('Please select a technician first.', 'error');
     return;
@@ -226,69 +211,6 @@ export class JobRepairComponent implements OnInit {
     }
   );
 }
-
-async saveLampDetails() {
-  if (!this.selectedLamp?.technicianID) {
-    this.presentToast('Please select a technician first.', 'error');
-    return;
-  }
-
-  // ✅ Validate MAC Address format if provided
-  const macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
-  if (this.selectedLamp.macAddressQA && !macRegex.test(this.selectedLamp.macAddressQA)) {
-    this.presentToast('Invalid MAC address format.', 'error');
-    return;
-  }
-
-  this.isSaving = true;
-
-  // ✅ Prepare payload matching the API structure
-  const payload = {
-    itemLampID: this.selectedLamp.itemLampID ?? '',
-    serialNumber: this.selectedLamp.serialNumber ?? '',
-    macAddress: this.selectedLamp.macAddress ?? null,
-    macAddressQA: this.selectedLamp.macAddressQA ?? null,
-    cableLength: this.selectedLamp.cableLength ?? null,
-    mainLEDLumens: this.selectedLamp.mainLEDLumens ?? null,
-    technicianID: this.selectedLamp.technicianID,
-    jobLampStatus: this.selectedLamp.jobLampStatus ?? 0,
-    headPieceNumber: this.selectedLamp.headPieceNumber ?? null,
-    camNumber: this.selectedLamp.camNumber ?? null,
-    hpMin: this.selectedLamp.hpMin ?? null,
-    ledBlueLight: this.selectedLamp.ledBlueLight ?? null,
-    qaCompleted: this.selectedLamp.qaCompleted ?? null,
-    dateTest: this.selectedLamp.dateTest ?? null,
-    dateTimeStarted: this.selectedLamp.dateTimeStarted ?? null,
-    dateTimeCompleted: this.selectedLamp.dateTimeCompleted ?? null,
-jobID: this.selectedLamp.jobID ?? undefined   
-  };
-
-  // ✅ Call the service with the correct payload
-  this.techservice.updateItem(payload).subscribe(
-    (res: any) => {
-      this.isSaving = false;
-      this.presentToast('Lamp details updated successfully.', 'success');
-      this.closePopup();
-
-      // ✅ Update in UI list
-      const index = this.filteredLamps?.findIndex(
-        (l) => l.itemLampID === this.selectedLamp.itemLampID
-      );
-      if (index !== undefined && index !== -1 && this.filteredLamps) {
-        this.filteredLamps[index] = {
-          ...this.filteredLamps[index],
-          ...payload,
-        };
-      }
-    },
-    (err: any) => {
-      this.isSaving = false;
-      console.error('Update failed:', err);
-      this.presentToast('Failed to update lamp details.', 'error');
-    }
-  );
-}
-
 
 
 }

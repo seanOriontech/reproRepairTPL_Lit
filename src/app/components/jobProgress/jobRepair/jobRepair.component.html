@@ -1,47 +1,85 @@
 <ion-grid>
-  <ion-row>
-    <ion-col size="6">
-      <ion-button shape="round" (click)="onScanClick()">
-        SCAN
-      </ion-button>
-
+  <ion-row class="ion-align-items-center">
+    <!-- SCAN -->
+    <ion-col size="2">
+      <ion-button shape="round" (click)="onScanClick()"> SCAN </ion-button>
     </ion-col>
-    <ion-col size="6">
-      <ion-button (click)="setOpen(true)" expand="block" [disabled]="getActive()">
-        COMPLETE JOB</ion-button>
 
+    <!-- Technician dropdown + SAVE -->
+    <ion-col size="12" size-md="4">
+      <div class="technician-wrap">
+        <ion-label class="tech-label">Technician:</ion-label>
+
+        <ion-select
+          [(ngModel)]="selectedLamp.technicianID"
+          interface="popover"
+          placeholder="Select"
+          class="no-border-select"
+        >
+          <ion-select-option
+            *ngFor="let tech of techservice?.technicians"
+            [value]="tech.technicianID"
+          >
+            {{ tech.name }}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-button color="primary" size="small" (click)="savetechnicianQAID()">
+          <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
+          <span *ngIf="!isSaving">Save</span>
+        </ion-button>
+      </div>
+    </ion-col>
+
+    <!-- COMPLETE JOB -->
+    <ion-col size="6">
+      <ion-button
+        expand="block"
+        (click)="setOpen(true)"
+        [disabled]="getActive()"
+      >
+        COMPLETE JOB
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>
 
+<h2>Search:</h2>
+<ion-input
+  fill="solid"
+  style="font-size: 30px !important; margin-bottom: 10px"
+  [(ngModel)]="searchTerm"
+  (ionInput)="filterLamps()"
+  type="text"
+  size="large"
+></ion-input>
 
-
-
-<h2> Search: </h2>
-<ion-input fill="solid" style="font-size: 30px !important;margin-bottom: 10px;" [(ngModel)]="searchTerm"
-  (ionInput)="filterLamps()" type="text" size="large"></ion-input>
-
-
-<div style="font-size: 24px;"> <strong>COUNT:</strong> {{ filteredLamps?.length }}</div>
-<br>
+<div style="font-size: 24px">
+  <strong>COUNT:</strong> {{ filteredLamps?.length }}
+</div>
+<br />
 
 <div *ngFor="let lamp of filteredLamps">
-
-  <div class="itemContainer" (click)="lampClick(lamp)"
-    [ngClass]="{'green-background': lamp?.jobLampStatus == JobLampStatus.repeaired}">
-    <ion-grid style="padding: 0px !important;">
+  <div
+    class="itemContainer"
+    (click)="openPopup(lamp)"
+    [ngClass]="{
+      'green-background': lamp?.jobLampStatus === JobLampStatus.repeaired
+    }"
+  >
+    <ion-grid style="padding: 0px !important">
       <ion-row>
-        <ion-col style="font-size: 18px;text-align: left;" size="10">
-          <strong>Serial Number: </strong> {{lamp?.serialNumber}}
+        <ion-col style="font-size: 18px; text-align: left" size="10">
+          <strong>Serial Number: </strong> {{ lamp?.serialNumber }}
         </ion-col>
-        <ion-col style="font-size: 18px;text-align: left;" size="10">
-          <strong>HeadPiece Number: </strong> {{lamp?.headPieceNumber}}
+        <ion-col style="font-size: 18px; text-align: left" size="10">
+          <strong>HeadPiece Number: </strong> {{ lamp?.headPieceNumber }}
         </ion-col>
-        <ion-col style="font-size: 18px;text-align: left;" size="10">
-          <strong> Technician: </strong> {{ getTech(lamp?.technicianID ?? "")}}
+        <ion-col style="font-size: 18px; text-align: left" size="10">
+          <strong> Technician: </strong> {{ getTech(lamp?.technicianID ?? "") }}
         </ion-col>
-        <ion-col style="font-size: 18px;text-align: right;" size="2">
-          <ion-grid style="padding: 0px !important;">
+        <ion-col style="font-size: 18px; text-align: right" size="2">
+          <ion-grid style="padding: 0px !important">
             <ion-row></ion-row>
           </ion-grid>
         </ion-col>
@@ -50,6 +88,109 @@
   </div>
 </div>
 
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="closePopup()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>QC Lamp Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closePopup()">✖</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-<ion-alert [isOpen]="isAlertOpen" header="Complete Repair Job?" message="Are you sure that you want to complete Job ?"
-  [buttons]="alertButtons" (didDismiss)="setOpen(false)"></ion-alert>
+    <ion-content class="ion-padding">
+      <h2 style="text-align: center; font-weight: 600; margin-bottom: 20px">
+        {{ selectedLamp.serialNumber }}
+      </h2>
+
+      <!-- MAC Address -->
+      <ion-item lines="inset">
+        <ion-label position="stacked">MAC Address</ion-label>
+        <ion-input
+          [(ngModel)]="selectedLamp.macAddressQA"
+          style="--placeholder-color: #999; font-size: 14px"
+          placeholder="Enter MAC Address"
+        ></ion-input>
+      </ion-item>
+
+      <!-- Cable Length -->
+      <ion-item lines="inset">
+        <ion-label position="stacked">Cable Length (m)</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="selectedLamp.cableLength"
+          style="--placeholder-color: #999; font-size: 14px"
+          placeholder="Enter Cable Length"
+        ></ion-input>
+      </ion-item>
+
+      <!-- LED Blue Light -->
+      <ion-item lines="inset">
+        <ion-label position="stacked">LED Blue Light</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="selectedLamp.ledBlueLight"
+          style="--placeholder-color: #999; font-size: 14px"
+          placeholder="Enter LED Blue Light"
+        ></ion-input>
+      </ion-item>
+
+      <!-- Main LED Lumens -->
+      <ion-item lines="inset">
+        <ion-label position="stacked">Main LED Lumens</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="selectedLamp.mainLEDLumens"
+          style="--placeholder-color: #999; font-size: 14px"
+          placeholder="Enter Main LED Lumens"
+        ></ion-input>
+      </ion-item>
+
+      <!-- HP Min -->
+      <ion-item lines="inset">
+        <ion-label position="stacked">HP Min</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="selectedLamp.hpMin"
+          style="--placeholder-color: #999; font-size: 14px"
+          placeholder="Enter HP Min"
+        ></ion-input>
+      </ion-item>
+
+      <!-- Buttons -->
+      <div
+        style="display: flex; justify-content: space-between; margin-top: 24px"
+      >
+        <ion-button
+          color="medium"
+          fill="outline"
+          expand="block"
+          (click)="closePopup()"
+          style="flex: 1; margin-right: 8px"
+        >
+          Cancel
+        </ion-button>
+
+        <ion-button
+          color="primary"
+          expand="block"
+          (click)="saveLampDetails()"
+          [disabled]="isSaving"
+          style="flex: 1"
+        >
+          <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
+          <span *ngIf="!isSaving">Save</span>
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-alert
+  [isOpen]="isAlertOpen"
+  header="Complete Repair Job?"
+  message="Are you sure that you want to complete Job ?"
+  [buttons]="alertButtons"
+  (didDismiss)="setOpen(false)"
+></ion-alert>

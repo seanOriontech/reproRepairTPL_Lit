@@ -15,7 +15,9 @@ export class JobLamp {
   ledBlueLight?: number | null;
   mainLEDLumens?: number | null;
   dateTest?: Date | null;
-
+  qaCompleted?: boolean | null; // 👈 add this line
+  dateTimeStarted?: Date | null;
+  dateTimeCompleted?: Date | null;
   jobLampStatus?: JobLampStatus = JobLampStatus.reparing;
   jobID?: string;
   job?: Job | null;

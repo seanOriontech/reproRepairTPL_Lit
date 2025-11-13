@@ -20,3 +20,49 @@ ion-row {
 .green-background {
   background-color: green;
 }
+
+ion-select {
+  border-radius: 4px;
+  height: 20px;
+  font-size: 14px;
+  padding-left: 6px;
+  color:white;
+}
+
+ion-button[size="small"] {
+  height: 32px;
+  font-size: 13px;
+margin-right: 70px;}
+
+ion-label {
+  min-width: 90px;
+}
+
+ion-row {
+  --ion-grid-column-padding: 0;
+}
+
+.technician-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* makes it responsive */
+}
+
+.tech-label {
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.no-border-select {
+  flex: 1;
+  min-width: 120px;
+  --border-width: 0;
+  --highlight-color-focused: transparent;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+
+
