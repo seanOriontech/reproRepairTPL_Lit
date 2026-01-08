@@ -140,6 +140,20 @@ export class JobRepairItemsComponent implements OnInit {
     return new Array(number);
   }
 
+  updateMacAddress() {
+    if (!this.jobLamp.macAddressQA || this.jobLamp.macAddressQA.length < 12) {
+      console.warn('Invalid MAC address');
+      return;
+    }
+
+    this.itemService.updateMAC(this.jobLamp).subscribe(() => {
+      alert('UPDATED MAC');
+    });
+
+    // Call your API here
+    console.log('Updating MAC to', this.jobLamp.macAddressQA);
+  }
+
   valueClick(number: number, item: Item) {
     var lampItem = this.jobService.selectedJobLamp.jobItems?.find(
       (x) => x.itemID == item.itemID

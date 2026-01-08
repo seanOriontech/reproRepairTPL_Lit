@@ -24,6 +24,7 @@ export class LampHeadpieceModalComponent {
       this.jobService.selectedJobLamp.headPieceNumber ?? '';
     this.serialNumber = this.jobService.selectedJobLamp.serialNumber ?? '';
     this.macAddress = this.jobService.selectedJobLamp.macAddress ?? '';
+    this.technicianID = this.jobService.selectedJobLamp.technicianID ?? '';
   }
 
   accept() {

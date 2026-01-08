@@ -4,6 +4,7 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { Item } from '../models/item';
 import { environment } from 'src/environments/environment';
 import { SpinnerService } from './spinnerService';
+import { JobLamp } from '../models/jobLamp';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,16 @@ export class ItemService {
     return this.http
       .put(
         environment.apiURL + '/u_Ite_litem/' + item.itemID,
+        item,
+        this.httpOptions
+      )
+      .pipe(catchError(this.handleError<any>('updateItem')));
+  }
+
+  updateMAC(item: JobLamp): Observable<any> {
+    return this.http
+      .patch(
+        environment.apiURL + '/u_Job_liteC/UpdateMAC',
         item,
         this.httpOptions
       )
