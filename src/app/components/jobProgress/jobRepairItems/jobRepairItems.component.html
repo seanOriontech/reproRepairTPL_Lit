@@ -1,22 +1,59 @@
-<ion-grid>
-  <ion-row>
-    <ion-col size="6">
+<ion-grid class="joblamp-grid">
+  <ion-row class="ion-align-items-stretch ion-justify-content-start">
 
-      <div class="flex-container">
-        Serial Number:
-        <div>
-          <h2> {{ jobLamp.serialNumber}}</h2>
-        </div>
-
-      </div>
-
+    <ion-col size="12" size-md="6" size-lg="3">
+      <ion-card class="info-card">
+        <ion-card-content>
+          <div class="label">Serial Number</div>
+          <div class="value">{{ jobLamp.serialNumber }}</div>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
-    <ion-col size="6">
-      <ion-button (click)="clickComplete()" expand="block" *ngIf="jobLamp.jobLampStatus == JobLampStatus.reparing">
-        COMPLETE </ion-button>
-      <ion-button [disabled]='true' expand="block" *ngIf="jobLamp.jobLampStatus == JobLampStatus.repeaired"> COMPLETED
-      </ion-button>
+
+    <ion-col size="12" size-md="6" size-lg="3">
+      <ion-card class="info-card">
+        <ion-card-content>
+          <div class="label">MAC Address</div>
+          <div class="value">{{ jobLamp.macAddress }}</div>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
+
+    <ion-col size="12" size-md="12" size-lg="4">
+      <ion-card class="info-card">
+        <ion-card-content>
+          <div class="label">New MAC Address</div>
+
+          <ion-item lines="none" class="input-item">
+            <ion-input [(ngModel)]="jobLamp.macAddressQA" placeholder="Enter new MAC address" clearInput="true"
+              inputmode="text">
+            </ion-input>
+          </ion-item>
+
+          <ion-button expand="block" color="primary" (click)="updateMacAddress()">
+            UPDATE MAC
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col size="12" size-md="12" size-lg="2">
+      <ion-card class="info-card">
+        <ion-card-content>
+          <div class="label">Job</div>
+
+          <ion-button expand="block" color="success" (click)="clickComplete()"
+            *ngIf="jobLamp.jobLampStatus == JobLampStatus.reparing">
+            COMPLETE
+          </ion-button>
+
+          <ion-button expand="block" [disabled]="true" *ngIf="jobLamp.jobLampStatus == JobLampStatus.repeaired">
+            COMPLETED
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
   </ion-row>
 </ion-grid>
 
