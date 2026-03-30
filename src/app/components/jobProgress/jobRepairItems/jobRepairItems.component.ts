@@ -134,8 +134,8 @@ export class JobRepairItemsComponent implements OnInit {
   }
 
   createRange(number: number) {
-    if (number > 10) {
-      number = 5;
+    if (number > 50) {
+      number = 50;
     }
     return new Array(number);
   }
