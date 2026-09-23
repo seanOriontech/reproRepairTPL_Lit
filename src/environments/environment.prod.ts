@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURL: 'https://as-repro-repairapi-prd.azurewebsites.net/api/',
+  apiURL: 'https://api-production-11d6.up.railway.app/api/',
 };
