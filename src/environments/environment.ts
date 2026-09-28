@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiURL: 'http://0.0.0.0:64512/api',
-  apiURL: 'https://api-production-11d6.up.railway.app/api/',
+  apiURL: 'https://api-production-11d6.up.railway.app/api',
 };
 
 /*
